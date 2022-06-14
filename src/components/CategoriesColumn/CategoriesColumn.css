@@ -1,0 +1,25 @@
+.CategoriesColumn .col {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 40px 0px;
+    min-width: 300px;
+    width: 400px;
+    max-width: 400px;
+  }
+  
+.CategoriesColumn .col .options {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 8px black;
+    padding: 1rem 2rem 0;
+    background: white;
+  }
+  
+.CategoriesColumn h2.title {
+    font-size: 2.4rem;
+    font-weight: bold;
+    border-bottom: solid 8px black;
+    margin-bottom: 1rem;
+  }

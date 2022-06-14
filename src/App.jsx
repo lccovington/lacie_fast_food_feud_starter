@@ -4,6 +4,8 @@ import Header from "./components/Header/Header"
 import Instructions from "./components/Instructions/Instructions"
 import Chip from "./components/Chip/Chip"
 import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
+import CategoriesColumn from "./components/CategoriesColumn/CategoriesColumn";
+import RestaurantsRow from "./components/RestaurantsRow/RestaurantsRow"
 import { useState } from "react"
 import { createDataSet } from "./data/dataset"
 
@@ -53,28 +55,13 @@ export function App() {
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
-      <div className="CategoriesColumn col">
-        <div className="categories options">
-          <h2 className="title">Categories</h2>
-          {categories.map((category) =>
-          <Chip key={category} label={category} onClick={() => setCategory(category)} isActive={activeCategory == category} onClose={() => setCategory(null)}/>
-        )}
-        </div>
-      </div>
-
+      <CategoriesColumn categoriesArray={categories} activeCat={activeCategory} setCat={setCategory}/>
       {/* MAIN COLUMN */}
       <div className="container">
         {/* HEADER GOES HERE */}
         <Header title={appInfo.title} tagline={appInfo.tagline} description={appInfo.description}/>
         {/* RESTAURANTS ROW */}
-        <div className="RestaurantsRow">
-          <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">
-          {restaurants.map((restaurant) => 
-          <Chip key={restaurant} label={restaurant} onClick={() => setRestaurant(restaurant)} isActive={activeRestaurant == restaurant} onClose={() => setRestaurant(null)}/>
-        )}
-          </div>
-        </div>
+        <RestaurantsRow restaurantsArray={restaurants} activeRes={activeRestaurant} setRes={setRestaurant}/>
 
         {/* INSTRUCTIONS GO HERE */}
         <Instructions instructions={getPageInstructions()}/>
