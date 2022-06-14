@@ -2,7 +2,7 @@ import * as React from "react"
 import { useState } from "react"
 import "./Chip.css"
 
-export function Chip({ label = "", isActive = false, onClick = () => {}}) {
+export function Chip({ label = "", isActive = false, onClick = () => {}, onClose = () => {}}) {
 
   let buttonClassName;
 
@@ -15,7 +15,10 @@ export function Chip({ label = "", isActive = false, onClick = () => {}}) {
   return (
     <button className={buttonClassName} onClick={onClick}>
       <p className="label">{label}</p>
-      <span className="close" role="button">{`X`}</span>
+      <span className="close" role="button" onClick={(e) => {
+        onClose();
+        e.stopPropagation();
+      }}>{`X`}</span>
     </button>
   )
 }

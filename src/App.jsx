@@ -19,7 +19,7 @@ export const appInfo = {
     start: `Start by clicking on a food category on the left and a fast food joint from the list above. Afterwards, you'll be able to choose from a list of menu items and see their nutritional content.`,
     onlyCategory: `Now select a fast food restaurant from the list above!`,
     onlyRestaurant: `Now select a category from the list on the left!`,
-    noSelectedItem: `Almost there! Choose a menu item and you'll have the fast food facts right at your fingertips!`,
+    noactiveItem: `Almost there! Choose a menu item and you'll have the fast food facts right at your fingertips!`,
     allSelected: `Great choice! Amazing what a little knowledge can do!`,
   },
 }
@@ -28,13 +28,27 @@ const { data, categories, restaurants } = createDataSet()
 
 export function App() {
 
-  const [selectedCategory, setCategory] = React.useState(0)
-  const [selectedRestaurant, setRestaurant] = React.useState(0)
-  const [selectedItem, setItem] = React.useState(0)
+  const [activeCategory, setCategory] = React.useState(0)
+  const [activeRestaurant, setRestaurant] = React.useState(0)
+  const [activeItem, setItem] = React.useState(0)
 
   const currentMenuItems = data.filter((menuItem) => {
-    return menuItem.food_category == selectedCategory && menuItem.restaurant == selectedRestaurant
+    return menuItem.food_category == activeCategory && menuItem.restaurant == activeRestaurant
   })
+
+  function getPageInstructions() {
+    if (!(activeCategory || activeRestaurant || activeItem)) {
+      return appInfo.instructions.start
+    } else if (activeCategory && !(activeRestaurant || activeItem)) {
+      return appInfo.instructions.onlyCategory
+    } else if (activeRestaurant && !(activeCategory || activeItem)) {
+      return appInfo.instructions.onlyRestaurant
+    } else if (!(activeItem) && (activeCategory && activeRestaurant)) {
+      return appInfo.instructions.noactiveItem
+    } else {
+      return appInfo.instructions.allSelected
+    }
+  }
 
   return (
     <main className="App">
@@ -43,7 +57,7 @@ export function App() {
         <div className="categories options">
           <h2 className="title">Categories</h2>
           {categories.map((category) =>
-          <Chip key={category} label={category} onClick={() => setCategory(category)} isActive={selectedCategory == category} />
+          <Chip key={category} label={category} onClick={() => setCategory(category)} isActive={activeCategory == category} onClose={() => setCategory(null)}/>
         )}
         </div>
       </div>
@@ -57,25 +71,25 @@ export function App() {
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">
           {restaurants.map((restaurant) => 
-          <Chip key={restaurant} label={restaurant} onClick={() => setRestaurant(restaurant)} isActive={selectedRestaurant == restaurant} />
+          <Chip key={restaurant} label={restaurant} onClick={() => setRestaurant(restaurant)} isActive={activeRestaurant == restaurant} onClose={() => setRestaurant(null)}/>
         )}
           </div>
         </div>
 
         {/* INSTRUCTIONS GO HERE */}
-        <Instructions instructions={appInfo.instructions.start}/>
+        <Instructions instructions={getPageInstructions()}/>
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
             {currentMenuItems.map((menuItem) => (
-              <Chip key={menuItem.item_name} label={menuItem.item_name} onClick={() => setItem(menuItem)} isActive={selectedItem.item_name == menuItem.item_name} />
+              <Chip key={menuItem.item_name} label={menuItem.item_name} onClick={() => setItem(menuItem)} isActive={activeItem.item_name == menuItem.item_name} onClose={() => setItem('')}/>
             ))}
           </div>
 
           {/* NUTRITION FACTS */}
           <div className="NutritionFacts nutrition-facts">
-            <NutritionalLabel item={selectedItem} />
+            <NutritionalLabel item={activeItem} />
           </div>
         </div>
 

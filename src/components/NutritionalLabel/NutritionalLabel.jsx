@@ -11,8 +11,8 @@ export function NutritionalLabel(props) {
       <h4 className="item-name">{props.item.item_name}</h4>
 
       <ul className="fact-list">
-      {nutritionFacts.map((fact) => {
-        return <NutritionalLabelFact key={fact.id} label={fact.label} attribute={fact.attribute} item={props.item} />
+      {nutritionFacts.map((nutritionalFact) => {
+        return <NutritionalLabelFact key={nutritionalFact.id} label={nutritionalFact.label} attribute={nutritionalFact.attribute} item={props.item} />
         })}
       </ul>
     </div>
